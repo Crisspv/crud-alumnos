@@ -12,7 +12,8 @@ class AlumnoController extends Controller
      */
     public function index()
     {
-        //
+        $alumnos = Alumno::all();
+        return view('alumnos.index', compact('alumnos'));
     }
 
     /**
@@ -20,7 +21,7 @@ class AlumnoController extends Controller
      */
     public function create()
     {
-        //
+        return view('alumnos.create');
     }
 
     /**
@@ -28,7 +29,15 @@ class AlumnoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nombre' => 'required|string',
+            'correo' => 'required|email|unique:alumnos,correo',
+            'fecha_nacimiento' => 'required|date',
+            'ciudad' => 'required|string',
+        ]);
+
+        Alumno::create($request->all());
+        return redirect()->route('alumnos.index')->with('success', 'Alumno creado correctamente.');
     }
 
     /**
@@ -36,15 +45,16 @@ class AlumnoController extends Controller
      */
     public function show(Alumno $alumno)
     {
-        //
+        return view('alumnos.show', compact('alumno'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Alumno $alumno)
     {
-        //
+        return view('alumnos.edit', compact('alumno'));
     }
 
     /**
@@ -52,7 +62,15 @@ class AlumnoController extends Controller
      */
     public function update(Request $request, Alumno $alumno)
     {
-        //
+        $request->validate([
+            'nombre' => 'required|string',
+            'correo' => 'required|email|unique:alumnos,correo,' . $alumno->id,
+            'fecha_nacimiento' => 'required|date',
+            'ciudad' => 'required|string',
+        ]);
+
+        $alumno->update($request->all());
+        return redirect()->route('alumnos.index')->with('success', 'Alumno actualizado correctamente.');
     }
 
     /**
@@ -60,6 +78,8 @@ class AlumnoController extends Controller
      */
     public function destroy(Alumno $alumno)
     {
-        //
+        $alumno->delete();
+        return redirect()->route('alumnos.index')->with('success', 'Alumno eliminado correctamente.');
     }
 }
+
