@@ -7,26 +7,20 @@ use Illuminate\Http\Request;
 
 class AlumnoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Listar todos los alumnos
     public function index()
     {
         $alumnos = Alumno::all();
         return view('alumnos.index', compact('alumnos'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // Mostrar el formulario de creación
     public function create()
     {
         return view('alumnos.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Guardar un nuevo alumno
     public function store(Request $request)
     {
         $request->validate([
@@ -40,26 +34,19 @@ class AlumnoController extends Controller
         return redirect()->route('alumnos.index')->with('success', 'Alumno creado correctamente.');
     }
 
-    /**
-     * Display the specified resource.
-     */
+    // Mostrar los detalles de un alumno
     public function show(Alumno $alumno)
     {
         return view('alumnos.show', compact('alumno'));
     }
 
-
-    /**
-     * Show the form for editing the specified resource.
-     */
+    // Mostrar el formulario de edición
     public function edit(Alumno $alumno)
     {
         return view('alumnos.edit', compact('alumno'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    // Actualizar un alumno
     public function update(Request $request, Alumno $alumno)
     {
         $request->validate([
@@ -73,13 +60,10 @@ class AlumnoController extends Controller
         return redirect()->route('alumnos.index')->with('success', 'Alumno actualizado correctamente.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    // Eliminar un alumno
     public function destroy(Alumno $alumno)
     {
         $alumno->delete();
         return redirect()->route('alumnos.index')->with('success', 'Alumno eliminado correctamente.');
     }
 }
-
